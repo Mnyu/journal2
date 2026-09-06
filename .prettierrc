@@ -1,0 +1,58 @@
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "proseWrap": "preserve",
+  "htmlWhitespaceSensitivity": "ignore",
+  "endOfLine": "auto",
+  "insertFinalNewline": false,
+  "requireFinalNewline": false,
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "jsx": true
+  },
+  "overrides": [
+    {
+      "files": [".ts", ".js"],
+      "options": {
+        "tabWidth": 2,
+        "parserOptions": {
+          "ecmaVersion": 2020,
+          "sourceType": "module"
+        }
+      }
+    },
+    {
+      "files": [".tsx", ".jsx"],
+      "options": {
+        "tabWidth": 2,
+        "parserOptions": {
+          "ecmaVersion": 2020,
+          "sourceType": "module",
+          "jsx": true
+        }
+      }
+    },
+    {
+      "files": "*.yaml",
+      "options": {
+        "tabWidth": 2,
+        "singleQuote": false
+      }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "singleQuote": false,
+        "tabWidth": 2
+      }
+    }
+  ]
+}

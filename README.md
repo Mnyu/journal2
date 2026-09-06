@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Running the app in local
 
-## Getting Started
+1. Setup `.env.dev` based on `.env.example`.
 
-First, run the development server:
+2. Run the below commands :
+    ```bash
+    docker compose --env-file .env.dev up -d
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    bun run db:generate
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    bun --env-file=.env.dev run db:migrate
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    bun --env-file=.env.dev run db:seed
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Stopping the app in local
 
-## Learn More
+1. Run the below command :
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    docker compose --env-file .env.dev down
+    # or
+    docker compose --env-file .env.dev down -v
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Steps to run:
 
-## Deploy on Vercel
+### Dev:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Create .env.dev file from .env_sample in the project root directory and populate values.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Run `docker compose -f docker-compose.yml -f docker-compose.dev.yml --env-file=.env.docker.dev up -d`
+
+3. bun --env-file=.env.dev run dev
+
+### Prod:
+
+1. Create `/data/n8n_data` and `/data/postgres_data` directories (if not present) for docker volumes.
+
+2. Run `sudo chown -R ubuntu:ubuntu /data` and Run `sudo chown -R 1000 /data/n8n_data`.
+
+3. Create .env file from .env_sample in the project root directory and populate values.
+
+4. Create certs directory in the project root directory and add certificate files.
+
+5. Create n8n.conf file from n8n.conf_sample inside nginx/conf.d directory and populate values.
+
+6. Pull docker images.
+
+7. Run `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`

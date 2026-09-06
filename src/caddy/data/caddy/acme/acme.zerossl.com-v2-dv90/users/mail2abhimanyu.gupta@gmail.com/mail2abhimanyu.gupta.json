@@ -1,0 +1,14 @@
+{
+	"status": "valid",
+	"contact": [
+		"mailto:mail2abhimanyu.gupta@gmail.com"
+	],
+	"termsOfServiceAgreed": true,
+	"externalAccountBinding": {
+		"protected": "eyJhbGciOiJIUzI1NiIsImtpZCI6IkM3N3llN1pkY25UaUNxS0tkbnl5SGciLCJ1cmwiOiJodHRwczovL2FjbWUuemVyb3NzbC5jb20vdjIvRFY5MC9uZXdBY2NvdW50In0",
+		"payload": "eyJjcnYiOiJQLTI1NiIsImt0eSI6IkVDIiwieCI6Imh0emZxTnZNc0Rrcy1QSS1SRlR2V2FkMjZBRVVkd3BRTWhvZjZId0pmUEUiLCJ5IjoiczdYLUoxVHUteGw1ZUlxdzc3U05nUDcxRFRndjlCX2g1a3pWLWRmblIwWSJ9",
+		"signature": "bR_-pD4XkCIvqCwvkwaA_Bg67lqQOnHfo8Cp6D_Eu3g"
+	},
+	"orders": "https://acme.zerossl.com/v2/DV90/account/C77ye7ZdcnTiCqKKdnyyHg/orders",
+	"location": "https://acme.zerossl.com/v2/DV90/account/C77ye7ZdcnTiCqKKdnyyHg"
+}

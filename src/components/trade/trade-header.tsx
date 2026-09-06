@@ -1,0 +1,11 @@
+const TradeHeader = () => {
+  return (
+    <section className='pt-3 flex items-center justify-between px-2'>
+      <div className='flex flex-col gap-2'>
+        <h1 className='text-2xl leading-none font-semibold'>Review Trade</h1>
+        {/* <p className='text-sm text-muted-foreground'>All your trades</p> */}
+      </div>
+    </section>
+  );
+};
+export default TradeHeader;

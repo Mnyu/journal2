@@ -1,0 +1,29 @@
+{
+  email mail2abhimanyu.gupta@gmail.com
+}
+
+journal.abhimanyugupta.dev {
+  encode zstd gzip
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    X-Frame-Options DENY
+    X-Content-Type-Options nosniff
+    Referrer-Policy strict-origin-when-cross-origin
+    Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    -Server
+  }
+  reverse_proxy app:3000 {
+    health_uri /api/v1/health/live
+    health_interval 30s
+    health_timeout 5s
+    transport http {
+      read_buffer 8192
+      write_buffer 8192
+    }
+  }
+
+  log {
+    output stdout
+    format json
+  }
+}

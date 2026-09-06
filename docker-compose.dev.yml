@@ -1,0 +1,30 @@
+services:
+  app:
+    build:
+      context: .
+    image: app:1.0.0
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.docker.dev
+  migrate:
+    build:
+      context: .
+      target: migrate
+    image: app-migrate:1.0.0
+    env_file:
+      - .env.docker.dev
+  db:
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql
+  caddy:
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    depends_on:
+      - app
+volumes:
+  postgres_data:
