@@ -1,5 +1,7 @@
 services:
   n8n:
+    expose:
+      - '5678'
     volumes:
       - /data/n8n_data:/home/node/.n8n
   app:
