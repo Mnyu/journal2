@@ -1,4 +1,7 @@
 services:
+  n8n:
+    volumes:
+      - /data/n8n_data:/home/node/.n8n
   app:
     image: ${APP_IMAGE}
     expose:
@@ -14,6 +17,7 @@ services:
       - '127.0.0.1:5432:5432'
     volumes:
       - /data/postgres:/var/lib/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
   caddy:
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro

@@ -1,4 +1,31 @@
 services:
+  n8n:
+    image: n8nio/n8n:2.20.7
+    hostname: n8n
+    container_name: n8n
+    restart: unless-stopped
+    environment:
+      # Database
+      - DB_TYPE=${N8N_DB_TYPE}
+      - DB_POSTGRESDB_HOST=${DB_HOSTNAME}
+      - DB_POSTGRESDB_PORT=${DB_PORT}
+      - DB_POSTGRESDB_DATABASE=${N8N_DB_NAME}
+      - DB_POSTGRESDB_USER=${DB_USER}
+      - DB_POSTGRESDB_PASSWORD=${DB_PASSWORD}
+
+      # n8n config
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PROTOCOL=${N8N_PROTOCOL}
+      - N8N_PORT=${N8N_PORT}
+      - WEBHOOK_URL=${N8N_WEBHOOK_URL}
+
+      - GENERIC_TIMEZONE=${N8N_TIMEZONE}
+
+      # Security
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+    depends_on:
+      db:
+        condition: service_healthy
   app:
     hostname: app
     container_name: app

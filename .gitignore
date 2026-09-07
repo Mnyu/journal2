@@ -48,3 +48,6 @@ caddy/data/*
 # Caddy runtime config
 caddy/config/*
 !caddy/config/.gitkeep
+
+db/*.dump
+n8n/data/*

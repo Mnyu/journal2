@@ -1,4 +1,10 @@
 services:
+  n8n:
+    ports:
+      - '5678:5678'
+    volumes:
+      # - n8n_data:/home/node/.n8n
+      - ./n8n/data/n8n_data:/home/node/.n8n
   app:
     build:
       context: .
@@ -19,6 +25,7 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
   caddy:
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
@@ -28,3 +35,4 @@ services:
       - app
 volumes:
   postgres_data:
+  # n8n_data:
