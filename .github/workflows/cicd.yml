@@ -96,29 +96,29 @@ jobs:
             ${{ env.IMAGE_NAME }}:migrate-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-  # upload-deployment-files:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v4
-  #     - name: List workspace
-  #       run: |
-  #         pwd
-  #         ls -la
-  #         find . -maxdepth 3 -type f
-  #     - name: Copy deployment files
-  #       uses: appleboy/scp-action@v1
-  #       with:
-  #         debug: true
-  #         host: ${{ secrets.OCI_HOST }}
-  #         username: ${{ secrets.OCI_USER }}
-  #         key: ${{ secrets.OCI_SSH_KEY }}
-  #         port: ${{ secrets.OCI_PORT }}
-  #         overwrite: true
-  #         strip_components: 0
-  #         source: "docker-compose.yml,docker-compose.prod.yml,caddy/Caddyfile,bin/deploy.sh,bin/rollback.sh"
-  #         target: /data/apps/journal
+  upload-deployment-files:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: List workspace
+        run: |
+          pwd
+          ls -la
+          find . -maxdepth 3 -type f
+      - name: Copy deployment files
+        uses: appleboy/scp-action@v1
+        with:
+          debug: true
+          host: ${{ secrets.OCI_HOST }}
+          username: ${{ secrets.OCI_USER }}
+          key: ${{ secrets.OCI_SSH_KEY }}
+          port: ${{ secrets.OCI_PORT }}
+          overwrite: true
+          strip_components: 0
+          source: "docker-compose.yml,docker-compose.prod.yml,caddy/Caddyfile,bin/deploy.sh,bin/rollback.sh"
+          target: /data/apps/journal
   # deploy:
   #   needs: upload-deployment-files
   #   runs-on: ubuntu-latest
