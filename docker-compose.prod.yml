@@ -3,7 +3,7 @@ services:
     expose:
       - '5678'
     volumes:
-      - /data/n8n_data:/home/node/.n8n
+      - ./data/n8n_data:/home/node/.n8n
   app:
     image: ${APP_IMAGE}
     expose:
@@ -18,12 +18,12 @@ services:
     ports:
       - '127.0.0.1:5432:5432'
     volumes:
-      - /data/postgres:/var/lib/postgresql
+      - ./data/postgres:/var/lib/postgresql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
   caddy:
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - /data/caddy/data:/data
-      - /data/caddy/config:/config
+      - ./data/caddy/data:/data
+      - ./data/caddy/config:/config
     depends_on:
       - app

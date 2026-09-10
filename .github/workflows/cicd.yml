@@ -117,7 +117,7 @@ jobs:
           port: ${{ secrets.OCI_PORT }}
           overwrite: true
           strip_components: 0
-          source: "docker-compose.yml,docker-compose.prod.yml,caddy/Caddyfile,bin/deploy.sh,bin/rollback.sh"
+          source: "docker-compose.yml,docker-compose.prod.yml,caddy/Caddyfile,bin/deploy.sh,bin/rollback.sh,db/init.sql,db/n8n_chakrview.dump"
           target: /data/apps/journal
   # deploy:
   #   needs: upload-deployment-files
