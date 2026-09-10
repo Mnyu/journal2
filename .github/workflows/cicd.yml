@@ -119,28 +119,28 @@ jobs:
           strip_components: 0
           source: "docker-compose.yml,docker-compose.prod.yml,caddy/Caddyfile,bin/deploy.sh,bin/rollback.sh,db/init.sql,db/n8n_chakrview.dump"
           target: /data/apps/journal
-  # deploy:
-  #   needs: upload-deployment-files
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: production
-  #   steps:
-  #     - name: Deploy
-  #       uses: appleboy/ssh-action@v1.2.2
-  #       with:
-  #         host: ${{ secrets.OCI_HOST }}
-  #         username: ${{ secrets.OCI_USER }}
-  #         key: ${{ secrets.OCI_SSH_KEY }}
-  #         port: ${{ secrets.OCI_PORT }}
-  #         script: |
-  #           export APP_IMAGE=${{ env.IMAGE_NAME }}:app-${{ github.sha }}
-  #           export MIGRATE_IMAGE=${{ env.IMAGE_NAME }}:migrate-${{ github.sha }}
-  #           cd /data/apps/journal
-  #           ./bin/deploy.sh "$APP_IMAGE" "$MIGRATE_IMAGE"
-  # summary:
-  #   needs: deploy
-  #   runs-on: ubuntu-latest
-  #   if: always()
-  #   steps:
-  #     - run: |
-  #         echo "Deployment finished"
+  deploy:
+    needs: upload-deployment-files
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.OCI_HOST }}
+          username: ${{ secrets.OCI_USER }}
+          key: ${{ secrets.OCI_SSH_KEY }}
+          port: ${{ secrets.OCI_PORT }}
+          script: |
+            export APP_IMAGE=${{ env.IMAGE_NAME }}:app-${{ github.sha }}
+            export MIGRATE_IMAGE=${{ env.IMAGE_NAME }}:migrate-${{ github.sha }}
+            cd /data/apps/journal
+            ./bin/deploy.sh "$APP_IMAGE" "$MIGRATE_IMAGE"
+  summary:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - run: |
+          echo "Deployment finished"
