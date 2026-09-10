@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  IMAGE_NAME: ghcr.io/mnyu/journal
+  IMAGE_NAME: ghcr.io/mnyu/journal2
 
 jobs:
   verify:
@@ -96,51 +96,51 @@ jobs:
             ${{ env.IMAGE_NAME }}:migrate-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-  upload-deployment-files:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: List workspace
-        run: |
-          pwd
-          ls -la
-          find . -maxdepth 3 -type f
-      - name: Copy deployment files
-        uses: appleboy/scp-action@v1
-        with:
-          debug: true
-          host: ${{ secrets.OCI_HOST }}
-          username: ${{ secrets.OCI_USER }}
-          key: ${{ secrets.OCI_SSH_KEY }}
-          port: ${{ secrets.OCI_PORT }}
-          overwrite: true
-          strip_components: 0
-          source: "docker-compose.yml,docker-compose.prod.yml,caddy/Caddyfile,bin/deploy.sh,bin/rollback.sh"
-          target: /data/apps/journal
-  deploy:
-    needs: upload-deployment-files
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-    steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: ${{ secrets.OCI_HOST }}
-          username: ${{ secrets.OCI_USER }}
-          key: ${{ secrets.OCI_SSH_KEY }}
-          port: ${{ secrets.OCI_PORT }}
-          script: |
-            export APP_IMAGE=${{ env.IMAGE_NAME }}:app-${{ github.sha }}
-            export MIGRATE_IMAGE=${{ env.IMAGE_NAME }}:migrate-${{ github.sha }}
-            cd /data/apps/journal
-            ./bin/deploy.sh "$APP_IMAGE" "$MIGRATE_IMAGE"
-  summary:
-    needs: deploy
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - run: |
-          echo "Deployment finished"
+  # upload-deployment-files:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v4
+  #     - name: List workspace
+  #       run: |
+  #         pwd
+  #         ls -la
+  #         find . -maxdepth 3 -type f
+  #     - name: Copy deployment files
+  #       uses: appleboy/scp-action@v1
+  #       with:
+  #         debug: true
+  #         host: ${{ secrets.OCI_HOST }}
+  #         username: ${{ secrets.OCI_USER }}
+  #         key: ${{ secrets.OCI_SSH_KEY }}
+  #         port: ${{ secrets.OCI_PORT }}
+  #         overwrite: true
+  #         strip_components: 0
+  #         source: "docker-compose.yml,docker-compose.prod.yml,caddy/Caddyfile,bin/deploy.sh,bin/rollback.sh"
+  #         target: /data/apps/journal
+  # deploy:
+  #   needs: upload-deployment-files
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: production
+  #   steps:
+  #     - name: Deploy
+  #       uses: appleboy/ssh-action@v1.2.2
+  #       with:
+  #         host: ${{ secrets.OCI_HOST }}
+  #         username: ${{ secrets.OCI_USER }}
+  #         key: ${{ secrets.OCI_SSH_KEY }}
+  #         port: ${{ secrets.OCI_PORT }}
+  #         script: |
+  #           export APP_IMAGE=${{ env.IMAGE_NAME }}:app-${{ github.sha }}
+  #           export MIGRATE_IMAGE=${{ env.IMAGE_NAME }}:migrate-${{ github.sha }}
+  #           cd /data/apps/journal
+  #           ./bin/deploy.sh "$APP_IMAGE" "$MIGRATE_IMAGE"
+  # summary:
+  #   needs: deploy
+  #   runs-on: ubuntu-latest
+  #   if: always()
+  #   steps:
+  #     - run: |
+  #         echo "Deployment finished"
